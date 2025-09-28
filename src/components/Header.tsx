@@ -83,7 +83,7 @@ const Header: React.FC = () => {
                   {[
                     { path: "/products/premium", label: "Premium Products" },
                     { path: "/products/trending", label: "Trending Products" },
-                    { path: "/products/arrivals", label: "New Arrivals" },
+                    // { path: "/products/arrivals", label: "New Arrivals" },
                   ].map((item) => (
                     <DropdownMenuItem asChild key={item.path}>
                       <Link
