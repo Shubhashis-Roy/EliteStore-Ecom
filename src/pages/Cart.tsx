@@ -36,8 +36,9 @@ const Cart: React.FC = () => {
       subTotal: totalPrice,
       shipping: "free",
       tax: 8, //in percentage
-      // productIds: state.items.map((item) => item.product.id),
-      productIds: ["68d8256b4bbdcb88ee1bf34e", "68d82a2f4bbdcb88ee1bf350"],
+      productIds: state.items.flatMap((item) =>
+        Array(item.quantity).fill(item.product._id)
+      ),
     };
 
     dispatch(placeOrder(payload));
@@ -118,7 +119,7 @@ const Cart: React.FC = () => {
           <div className="lg:col-span-2 space-y-4">
             {state.items.map((item) => (
               <motion.div
-                key={item.product.id}
+                key={item.product._id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="flex items-center space-x-4 p-5 bg-white rounded-xl shadow-sm border"
@@ -145,7 +146,7 @@ const Cart: React.FC = () => {
                     variant="outline"
                     size="icon"
                     onClick={() =>
-                      updateQuantity(item.product.id, item.quantity - 1)
+                      updateQuantity(item.product._id, item.quantity - 1)
                     }
                   >
                     <Minus className="w-4 h-4" />
@@ -157,7 +158,7 @@ const Cart: React.FC = () => {
                     variant="outline"
                     size="icon"
                     onClick={() =>
-                      updateQuantity(item.product.id, item.quantity + 1)
+                      updateQuantity(item.product._id, item.quantity + 1)
                     }
                   >
                     <Plus className="w-4 h-4" />
@@ -169,7 +170,7 @@ const Cart: React.FC = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => removeItem(item.product.id)}
+                  onClick={() => removeItem(item.product._id)}
                   className="text-red-500 hover:text-red-600"
                 >
                   <X className="w-5 h-5" />

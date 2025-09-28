@@ -18,6 +18,7 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import { Provider } from "react-redux";
 import { store } from "@/redux/store";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/products/arrivals" element={<Trending />} />
+                  <Route path="/about" element={<About />} />
                   {/* Catch-all */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

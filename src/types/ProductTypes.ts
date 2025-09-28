@@ -16,3 +16,8 @@ export interface ProductType {
   updatedAt: string;
   __v: number;
 }
+
+export interface CartItem {
+  product: ProductType;
+  quantity: number;
+}

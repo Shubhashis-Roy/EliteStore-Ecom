@@ -10,8 +10,6 @@ const Trending: React.FC = () => {
     .filter((product) => product.rating >= 4.5)
     .sort((a, b) => b.rating - a.rating);
 
-  console.log(trendingProducts, "trendingProducts hlo ===");
-
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}

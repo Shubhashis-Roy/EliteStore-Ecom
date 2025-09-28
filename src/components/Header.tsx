@@ -98,7 +98,7 @@ const Header: React.FC = () => {
               </DropdownMenu>
 
               {[
-                { path: "/categories", label: "Categories" },
+                // { path: "/categories", label: "Categories" },
                 { path: "/about", label: "About" },
               ].map((item) => (
                 <Link
