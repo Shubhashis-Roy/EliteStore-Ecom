@@ -6,7 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useCart } from "@/contexts/CartContext";
-import Checkout from "./Checkout"; 
+import Checkout from "./Checkout";
+import { placeOrder } from "@/redux/slices/orders";
+import { dispatch } from "@/redux/store";
 
 const Cart: React.FC = () => {
   const { state, removeItem, updateQuantity, clearCart, totalPrice } =
@@ -17,7 +19,7 @@ const Cart: React.FC = () => {
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line
   const [orderDetails, setOrderDetails] = useState<any>(null);
 
   const handlePlaceOrder = async () => {
@@ -25,6 +27,20 @@ const Cart: React.FC = () => {
       alert("⚠ Please fill all required fields");
       return;
     }
+
+    const payload = {
+      firstName,
+      lastName,
+      address,
+      phoneNumber: phone,
+      subTotal: totalPrice,
+      shipping: "free",
+      tax: 8, //in percentage
+      // productIds: state.items.map((item) => item.product.id),
+      productIds: ["68d8256b4bbdcb88ee1bf34e", "68d82a2f4bbdcb88ee1bf350"],
+    };
+
+    dispatch(placeOrder(payload));
 
     setLoading(true);
     try {
@@ -51,9 +67,8 @@ const Cart: React.FC = () => {
     }
   };
 
-  // ✅ Show Checkout with order details
   if (orderDetails) {
-    return <Checkout orderDetails={orderDetails} />;
+    return <Checkout />;
   }
 
   // ✅ Empty Cart

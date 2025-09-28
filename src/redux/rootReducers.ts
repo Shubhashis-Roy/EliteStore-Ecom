@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
 import products from "./slices/products";
+import orders from "./slices/orders";
 import categories from "./slices/categories";
 
 const createNoopStorage = () => ({
@@ -32,6 +33,7 @@ const rootPersistConfig = {
 const rootReducer = combineReducers({
   // Slice
   products: products,
+  orders: orders,
   categories: categories,
 });
 

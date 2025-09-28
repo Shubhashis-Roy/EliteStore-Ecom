@@ -1,4 +1,4 @@
-export interface OrderResponse {
+export interface placeOrdersType {
   success: boolean;
   message: string;
   deliveryDetails: {
@@ -9,7 +9,7 @@ export interface OrderResponse {
   };
   priceDetails: {
     subTotal: number;
-    tax: string;
+    taxAmount: number;
     shipping: string;
     total: number;
   };
@@ -30,4 +30,23 @@ export interface OrderResponse {
     updatedAt: string;
     __v: number;
   }[];
+}
+
+export interface productDetailsType {
+  _id: string;
+  name: string;
+  image: string;
+  description: string;
+  price: number;
+  category: string;
+  brand: string;
+  features: string[];
+  rating: number;
+  reviewCount: number;
+  inStock: boolean;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+  quantity: number;
+  __v: number;
 }

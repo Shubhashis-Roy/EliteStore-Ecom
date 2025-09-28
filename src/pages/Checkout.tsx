@@ -4,22 +4,12 @@ import { MapPin, Truck, Shield, CheckCircle } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useSelector } from "@/redux/store";
+import { productDetailsType } from "@/types/ordersTypes";
 
-interface CheckoutProps {
-  orderDetails: {
-    id: number;
-    name: string;
-    address: string;
-    phone: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    items: any[];
-    subtotal: number;
-    tax: number;
-    total: number;
-  };
-}
+const Checkout = () => {
+  const placeOrders = useSelector((state) => state.orders.placeOrders);
 
-const Checkout: React.FC<CheckoutProps> = ({ orderDetails }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-6 py-12">
@@ -46,27 +36,29 @@ const Checkout: React.FC<CheckoutProps> = ({ orderDetails }) => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4 mb-6">
-                  {orderDetails.items.map((item: any) => (
-                    <div
-                      key={item.product.id}
-                      className="flex items-center space-x-4 border-b pb-4"
-                    >
-                      <img
-                        src={item.product.image}
-                        alt={item.product.name}
-                        className="w-16 h-16 object-cover rounded-lg"
-                      />
-                      <div className="flex-1">
-                        <h4 className="font-medium">{item.product.name}</h4>
-                        <p className="text-sm text-gray-500">
-                          Qty: {item.quantity}
-                        </p>
+                  {placeOrders.productsDetails.map(
+                    (item: productDetailsType) => (
+                      <div
+                        key={item._id}
+                        className="flex items-center space-x-4 border-b pb-4"
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-16 h-16 object-cover rounded-lg"
+                        />
+                        <div className="flex-1">
+                          <h4 className="font-medium">{item.name}</h4>
+                          <p className="text-sm text-gray-500">
+                            Qty: {item.quantity}
+                          </p>
+                        </div>
+                        <span className="font-medium">
+                          ₹{(item.price * item.quantity).toFixed(2)}
+                        </span>
                       </div>
-                      <span className="font-medium">
-                        ₹{(item.product.price * item.quantity).toFixed(2)}
-                      </span>
-                    </div>
-                  ))}
+                    )
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -86,9 +78,17 @@ const Checkout: React.FC<CheckoutProps> = ({ orderDetails }) => {
               <CardContent>
                 {/* Delivery Info */}
                 <div className="mb-6 space-y-2">
-                  <p className="font-medium">{orderDetails.name}</p>
-                  <p className="text-gray-700">{orderDetails.address}</p>
-                  <p className="text-gray-700">{orderDetails.phone}</p>
+                  <p className="font-medium">
+                    {placeOrders.deliveryDetails.firstName +
+                      " " +
+                      placeOrders.deliveryDetails.lastName}
+                  </p>
+                  <p className="text-gray-700">
+                    {placeOrders.deliveryDetails.address}
+                  </p>
+                  <p className="text-gray-700">
+                    {placeOrders.deliveryDetails.phoneNumber}
+                  </p>
                   <div className="flex items-center space-x-2">
                     <MapPin className="w-5 h-5 text-gray-500" />
                     <span>Delivery expected in 3–5 days</span>
@@ -103,16 +103,18 @@ const Checkout: React.FC<CheckoutProps> = ({ orderDetails }) => {
                 <div className="space-y-2 border-t pt-4 text-gray-700">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>₹{orderDetails.subtotal.toFixed(2)}</span>
+                    <span>₹{placeOrders.priceDetails.subTotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Tax (8%)</span>
-                    <span>₹{orderDetails.tax.toFixed(2)}</span>
+                    <span>
+                      ₹{Number(placeOrders.priceDetails.taxAmount).toFixed(2)}
+                    </span>
                   </div>
                   <div className="flex justify-between font-bold border-t pt-2">
                     <span>Total Amount</span>
                     <span className="text-yellow-600">
-                      ₹{orderDetails.total.toFixed(2)}
+                      ₹{Number(placeOrders.priceDetails.total).toFixed(2)}
                     </span>
                   </div>
                 </div>
